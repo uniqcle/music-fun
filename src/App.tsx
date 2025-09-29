@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 
 //const tracks = null
 
@@ -12,7 +12,7 @@ const tracks = [
         id: 2,
         title: "Musicfun soundtrack instrumental",
         url: " https://musicfun.it-incubator.app/api/samurai-way-soundtrack-instrumental.mp3",
-        isSelected: true
+        isSelected: true,
     },
     {
         id: 3,
@@ -22,30 +22,61 @@ const tracks = [
 ];
 
 export function App() {
-    
-
     const [selectedTrackID, setSelectedTrackID] = useState(1);
+    const [tracks, setTracks] = useState(null);
 
+    const effect = () => {
+        fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
+            headers: {
+                "api-key": "f212af60-d0e2-4231-a1b2-6ceaff923b72",
+                origin: "http://localhost",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setTracks(data.data);
+            });
+    };
 
-    if(tracks === null) return <span>Loading...</span>
-    
+    useEffect(effect, []);
+
+    if (tracks === null) return <span>Loading...</span>;
+
     if (tracks.length === 0) return <span>No tacks</span>;
 
     return (
         <>
-            <button onClick={() => {
-                setSelectedTrackID(null)
-            }}>Reset selection</button>
+            <button
+                onClick={() => {
+                    setSelectedTrackID(null);
+                }}
+            >
+                Reset selection
+            </button>
             <ul>
                 {tracks.map((track) => {
                     return (
-                        <li key={track.id} style={{
-                            border: track.id === selectedTrackID ? '1px solid orange' : 'none'
-                            }}>
-                            <div onClick={() => {
-                                setSelectedTrackID(track.id)
-                            }}>{track.title}</div>
-                            <audio controls src={track.url}></audio>
+                        <li
+                            key={track.id}
+                            style={{
+                                border:
+                                    track.id === selectedTrackID
+                                        ? "1px solid orange"
+                                        : "none",
+                            }}
+                        >
+                            <div
+                                onClick={() => {
+                                    setSelectedTrackID(track.id);
+                                }}
+                            >
+                                {track.attributes.title}
+                            </div>
+                            <audio
+                                controls
+                                src={track.attributes.attachments[0].url}
+                            ></audio>
                         </li>
                     );
                 })}
