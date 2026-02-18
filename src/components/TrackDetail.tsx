@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 
 export default function TrackDetail({ selectedTrack, isFetching, setIsFetching }) {
-    useEffect(() => {
+    
+	useEffect(() => {
         if (!selectedTrack) {
             return;
         }
