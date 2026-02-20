@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-
-
+import TrackItem from "./TrackItem";
 
 export default function TrackList({
     tracks,
@@ -9,6 +8,15 @@ export default function TrackList({
     setTracks,
     setIsFetching,
 }) {
+    const onResetClick = () => {
+        setSelectedTrack(null);
+    };
+
+    const onSelectedTrack = (track) => {
+        setIsFetching(true);
+        setSelectedTrack?.(track);
+    };
+
     const effect = () => {
         fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
             headers: {
@@ -31,39 +39,17 @@ export default function TrackList({
 
     return (
         <div>
-            <button
-                onClick={() => {
-                    setSelectedTrack(null);
-                }}
-            >
-                Reset selection
-            </button>
+            <button onClick={onResetClick}>Reset selection</button>
 
             <ul>
                 {tracks.map((track) => {
                     return (
-                        <li
+                        <TrackItem
                             key={track.id}
-                            style={{
-                                border:
-                                    track.id === selectedTrack?.id
-                                        ? "1px solid orange"
-                                        : "none",
-                            }}
-                        >
-                            <div
-                                onClick={() => {
-                                    setIsFetching(true);
-                                    setSelectedTrack(track);
-                                }}
-                            >
-                                {track.attributes.title}
-                            </div>
-                            <audio
-                                controls
-                                src={track.attributes.attachments[0].url}
-                            ></audio>
-                        </li>
+                            track={track}
+                            selectedTrack={selectedTrack}
+                            onSelectedTrack={onSelectedTrack}
+                        />
                     );
                 })}
             </ul>
