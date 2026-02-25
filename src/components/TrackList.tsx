@@ -1,5 +1,10 @@
 import { useEffect } from "react";
 import TrackItem from "./TrackItem";
+import type {
+    TrackListType,
+    TrackItemType,
+    PropsTrackList,
+} from "../types/types";
 
 export default function TrackList({
     tracks,
@@ -7,12 +12,12 @@ export default function TrackList({
     setSelectedTrack,
     setTracks,
     setIsFetching,
-}) {
+}: PropsTrackList) {
     const onResetClick = () => {
         setSelectedTrack(null);
     };
 
-    const onSelectedTrack = (track) => {
+    const onSelectedTrack = (track: TrackItemType) => {
         setIsFetching(true);
         setSelectedTrack?.(track);
     };
@@ -25,9 +30,9 @@ export default function TrackList({
             },
         })
             .then((response) => response.json())
-            .then((data) => {
+            .then((data: TrackListType) => {
                 console.log(data);
-                setTracks(data.data);
+                setTracks(data);
             });
     };
 
@@ -35,23 +40,24 @@ export default function TrackList({
 
     if (tracks === null) return <span>Loading...</span>;
 
-    if (tracks.length === 0) return <span>No tacks</span>;
+    if (tracks?.data.length === 0) return <span>No tacks</span>;
 
     return (
         <div>
             <button onClick={onResetClick}>Reset selection</button>
 
             <ul>
-                {tracks.map((track) => {
-                    return (
-                        <TrackItem
-                            key={track.id}
-                            track={track}
-                            selectedTrack={selectedTrack}
-                            onSelectedTrack={onSelectedTrack}
-                        />
-                    );
-                })}
+                {tracks &&
+                    tracks.map((track: TrackItemType) => {
+                        return (
+                            <TrackItem
+                                key={track.id}
+                                track={track}
+                                selectedTrack={selectedTrack}
+                                onSelectedTrack={onSelectedTrack}
+                            />
+                        );
+                    })}
             </ul>
         </div>
     );

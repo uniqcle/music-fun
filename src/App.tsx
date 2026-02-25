@@ -3,11 +3,15 @@ import Header from "./components/Header";
 import SideBar from "./components/SideBar";
 import TrackList from "./components/TrackList";
 import TrackDetail from "./components/TrackDetail";
+import type { TrackListType, TrackItemType } from "./types/types";
+
 
 export function App() {
-    const [tracks, setTracks] = useState(null);
-    const [selectedTrack, setSelectedTrack] = useState(null);
-    const [isFetching, setIsFetching] = useState(false);
+    const [tracks, setTracks] = useState<TrackListType | null>(null);
+    const [selectedTrack, setSelectedTrack] = useState<TrackItemType | null>(
+        null,
+    );
+    const [isFetching, setIsFetching] = useState<boolean>(false);
 
     return (
         <div>

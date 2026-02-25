@@ -1,8 +1,12 @@
 import { useEffect } from "react";
+import type { TrackItemType, PropTrackDetail } from "../types/types";
 
-export default function TrackDetail({ selectedTrack, isFetching, setIsFetching }) {
-    
-	useEffect(() => {
+export default function TrackDetail({
+    selectedTrack,
+    isFetching,
+    setIsFetching,
+}: PropTrackDetail) {
+    useEffect(() => {
         if (!selectedTrack) {
             return;
         }
@@ -17,7 +21,7 @@ export default function TrackDetail({ selectedTrack, isFetching, setIsFetching }
             },
         )
             .then((response) => response.json())
-            .then((data) => {
+            .then((data: TrackItemType) => {
                 console.log(data);
                 setIsFetching(false);
             });
