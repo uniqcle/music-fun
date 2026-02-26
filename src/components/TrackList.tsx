@@ -5,6 +5,7 @@ import type {
     TrackItemType,
     PropsTrackList,
 } from "../types/types";
+import { getTracks } from "../api/tracks";
 
 export default function TrackList({
     tracks,
@@ -23,17 +24,12 @@ export default function TrackList({
     };
 
     const effect = () => {
-        fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
-            headers: {
-                "api-key": "f212af60-d0e2-4231-a1b2-6ceaff923b72",
-                origin: "http://localhost",
-            },
-        })
-            .then((response) => response.json())
-            .then((data: TrackListType) => {
-                console.log(data);
-                setTracks(data);
-            });
+        const promise = getTracks();
+
+        promise.then((data: TrackListType) => {
+            console.log(data);
+            setTracks(data);
+        });
     };
 
     useEffect(effect, []);
@@ -48,7 +44,7 @@ export default function TrackList({
 
             <ul>
                 {tracks &&
-                    tracks.map((track: TrackItemType) => {
+                    tracks?.data.map((track: TrackItemType) => {
                         return (
                             <TrackItem
                                 key={track.id}

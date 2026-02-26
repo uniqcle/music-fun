@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import type { TrackItemType, PropTrackDetail } from "../types/types";
+import { getTrack } from "../api/tracks";
 
 export default function TrackDetail({
     selectedTrack,
@@ -11,20 +12,12 @@ export default function TrackDetail({
             return;
         }
 
-        fetch(
-            `https://musicfun.it-incubator.app/api/1.0/playlists/tracks/${selectedTrack.id}`,
-            {
-                headers: {
-                    "api-key": "f212af60-d0e2-4231-a1b2-6ceaff923b72",
-                    origin: "http://localhost",
-                },
-            },
-        )
-            .then((response) => response.json())
-            .then((data: TrackItemType) => {
-                console.log(data);
-                setIsFetching(false);
-            });
+        const promise = getTrack(selectedTrack);
+
+        promise.then((data: TrackItemType) => {
+            console.log(data);
+            setIsFetching(false);
+        });
     }, [selectedTrack]);
 
     return (

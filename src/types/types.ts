@@ -34,12 +34,12 @@ export type PropsTrackList = {
 
 export type PropTrackItem = {
     track: TrackItemType;
-    selectedTrack: TrackItemType;
+    selectedTrack: TrackItemType | null;
     onSelectedTrack: (track: TrackItemType) => void;
 };
 
 export type PropTrackDetail = {
-	selectedTrack: TrackItemType,
-    isFetching: boolean,
+    selectedTrack: TrackItemType | null;
+    isFetching: boolean;
     setIsFetching: (isFetching: boolean) => void;
-}
+};
