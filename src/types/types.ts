@@ -11,23 +11,25 @@ type Attachments = {
 };
 
 export type TrackItemType = {
-	id: string;
-    attributes: {
-        title: string;
-        lyrics?: null | string;
-        attachments: Attachments[];
+    id: string;
+    data: {
+        attributes: {
+            title: string;
+            lyrics?: null | string;
+            attachments: Attachments[];
+        };
     };
-}
+};
 
 export type TrackListType = {
-	data: Array<TrackItemType>; 
+    data: Array<TrackItemType>;
 };
 
 export type PropsTrackList = {
-    tracks: TrackListType | null;
+    //tracks: TrackListType | null;
     selectedTrack: TrackItemType | null;
     setSelectedTrack: (track: TrackItemType | null) => void;
-    setTracks: (tracks: TrackListType ) => void;
+    //setTracks: (tracks: TrackListType ) => void;
     setIsFetching: (isFetching: boolean) => void;
 };
 

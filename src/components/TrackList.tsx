@@ -1,17 +1,10 @@
-import { useEffect } from "react";
 import TrackItem from "./TrackItem";
-import type {
-    TrackListType,
-    TrackItemType,
-    PropsTrackList,
-} from "../types/types";
-import { getTracks } from "../api/tracks";
+import type { TrackItemType, PropsTrackList } from "../types/types";
+import useTracks from "../hooks/useTracks";
 
 export default function TrackList({
-    tracks,
     selectedTrack,
     setSelectedTrack,
-    setTracks,
     setIsFetching,
 }: PropsTrackList) {
     const onResetClick = () => {
@@ -23,16 +16,7 @@ export default function TrackList({
         setSelectedTrack?.(track);
     };
 
-    const effect = () => {
-        const promise = getTracks();
-
-        promise.then((data: TrackListType) => {
-            console.log(data);
-            setTracks(data);
-        });
-    };
-
-    useEffect(effect, []);
+    const { tracks } = useTracks();
 
     if (tracks === null) return <span>Loading...</span>;
 

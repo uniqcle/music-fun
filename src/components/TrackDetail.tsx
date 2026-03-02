@@ -1,24 +1,14 @@
-import { useEffect } from "react";
-import type { TrackItemType, PropTrackDetail } from "../types/types";
-import { getTrack } from "../api/tracks";
+import type { PropTrackDetail } from "../types/types";
+import useTrack from "../hooks/useTrackDetail";
 
 export default function TrackDetail({
     selectedTrack,
     isFetching,
     setIsFetching,
 }: PropTrackDetail) {
-    useEffect(() => {
-        if (!selectedTrack) {
-            return;
-        }
+    const { trackDetail } = useTrack(selectedTrack, setIsFetching);
 
-        const promise = getTrack(selectedTrack);
-
-        promise.then((data: TrackItemType) => {
-            console.log(data);
-            setIsFetching(false);
-        });
-    }, [selectedTrack]);
+    console.log(trackDetail);
 
     return (
         <div>
@@ -29,9 +19,9 @@ export default function TrackDetail({
                     <h2>Details</h2>
                     <div>
                         {!selectedTrack && "Track is not selected"}
-                        {selectedTrack && (
+                        {trackDetail && (
                             <div>
-                                <h3>{selectedTrack.attributes.title}</h3>
+                                <h3>{trackDetail?.data.attributes.title}</h3>
                             </div>
                         )}
                     </div>
